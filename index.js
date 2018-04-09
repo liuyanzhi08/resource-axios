@@ -1,1 +1,5 @@
-module.exports = require('./lib/resource-axios.js');
+// src/main.js
+import foo from './src/foo.js';
+export default function () {
+	console.log(foo);
+}
