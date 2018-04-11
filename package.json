@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/index.js",
-    "start": "rollup -c script/config.js"
+    "start": "rollup -w -c scripts/config.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,11 @@
     "axios": "^0.18.0"
   },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
     "rollup": "^0.57.1"
   }
 }

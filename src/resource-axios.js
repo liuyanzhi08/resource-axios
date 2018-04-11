@@ -3,31 +3,26 @@
  *
  * Default Actions
  *   get: {method: 'GET'}
- *   save: {method: 'POST'}
  *   query: {method: 'GET'}
+ *   save: {method: 'POST'}
  *   update: {method: 'PUT'}
  *   delete: {method: 'DELETE'}
  *
- * @param path the resource path
- * @param actions custom actions
- * @returns the resource object
+ * @param {String} path the resource path
+ * @param  {Object} actions custom actions to overwrite or to add
+ * @returns {Object} the resource object
  */
 
-'use strict';
+import axios from 'axios';
 
-import axios from 'axios'
 export default (path, actions) => {
-	let obj = {
-		get: id => axios.get(path + '/' + id),
-		save: obj => axios.post(path, obj),
-		query: params => axios.get(path, { params }),
-		update: (id, obj) => axios.put(path + '/' + id, obj),
-		delete: id => axios.delete(path + '/' + id)
-	}
-	return Object.assign(obj, actions)
-}
-//
-// module.exports = axios;
-//
-// // Allow use of default import syntax in TypeScript
-// module.exports.default = axios;
+  const resource = {
+    get: id => axios.get(`${path}/${id}`),
+    query: params => axios.get(path, { params }),
+    save: data => axios.post(path, data),
+    update: (id, data) => axios.put(`${path}/${id}`, data),
+    delete: id => axios.delete(`${path}/${id}`),
+  }
+  return Object.assign(resource, actions);
+};
+
