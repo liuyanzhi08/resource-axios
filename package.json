@@ -1,6 +1,6 @@
 {
   "name": "resource-axios",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "create vue-resource's resource like object",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,9 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "rollup": "^0.57.1"
+    "rollup": "^0.57.1",
+    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.3.0"
   }
 }

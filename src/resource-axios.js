@@ -14,6 +14,7 @@
  */
 
 import axios from 'axios';
+// console.log(axios)
 
 export default (path, actions) => {
   const resource = {
@@ -22,7 +23,7 @@ export default (path, actions) => {
     save: data => axios.post(path, data),
     update: (id, data) => axios.put(`${path}/${id}`, data),
     delete: id => axios.delete(`${path}/${id}`),
-  }
+  };
   return Object.assign(resource, actions);
 };
 
