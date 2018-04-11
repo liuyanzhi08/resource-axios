@@ -1,5 +1,7 @@
-var t = require('../index')
-var s = t('http://baidu.com')
-s.get().then(res => {
-	console.log(res.data)
-})
+const resource = require('../index');
+const fs = require('fs');
+
+const baiduApi = resource('http://baidu.com');
+baiduApi.get().then((res) => {
+  fs.writeFileSync('test/baidu.html', res.data);
+});
