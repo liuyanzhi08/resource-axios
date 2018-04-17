@@ -11,8 +11,6 @@ Create vue-resource's resource like object
 npm install --save resource-axios
 ```
 
-
-
 ## Usage
 
 ```javascript
@@ -51,3 +49,9 @@ const Book = resource('/api/books', {
 // sell book of id:1 => curl /api/books/1/sell
 Book.sell(1).then(res => console.log(res));
 ```
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2018-present, liuyanzhi08
