@@ -1,6 +1,6 @@
 # resource-axios [![Build Status][travis-img]][travis]
 
-[travis-img]: https://travis-ci.org/rollup/rollup-plugin-commonjs.svg
+[travis-img]: https://travis-ci.org/liuyanzhi08/resource-axios.svg
 [travis]: https://travis-ci.org/rollup/rollup-plugin-commonjs
 
 Create vue-resource's resource like object

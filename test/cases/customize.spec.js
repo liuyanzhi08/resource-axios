@@ -1,6 +1,6 @@
 import axios from 'axios';
 import chai from 'chai';
-import resourceAxios from '../../index';
+import resourceAxios from '../../dist/resource-axios';
 
 const { expect } = chai;
 

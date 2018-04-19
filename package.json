@@ -2,7 +2,7 @@
   "name": "resource-axios",
   "version": "1.0.10",
   "description": "create vue-resource's resource like object",
-  "main": "index.js",
+  "main": "dist/resource-axios.js",
   "scripts": {
     "test": "mocha",
     "start": "npm run dev",
