@@ -1,4 +1,4 @@
-# resource-resource-axios 
+# resource-axios 
 
 
 
