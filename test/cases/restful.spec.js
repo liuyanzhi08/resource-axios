@@ -1,15 +1,17 @@
+import chai from 'chai';
 import resourceAxios from '../../index';
 
+const { expect } = chai;
+
 describe('Restful methods', () => {
-  const defaultTimeoutInterval = 5000;
   let Baidu;
-  beforeAll(() => {
+  before(() => {
     Baidu = resourceAxios('http://baidu.com');
   });
 
   it('should work', async () => {
     await Baidu.get().then((res) => {
-      expect(res.data).toBeDefined();
+      expect(res.data).to.be.a('string');
     });
-  }, defaultTimeoutInterval);
+  }).timeout(30000);
 });

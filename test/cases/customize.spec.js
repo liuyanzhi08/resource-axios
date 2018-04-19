@@ -1,10 +1,12 @@
 import axios from 'axios';
+import chai from 'chai';
 import resourceAxios from '../../index';
 
+const { expect } = chai;
+
 describe('Customize actions', () => {
-  const defaultTimeoutInterval = 5000;
   let Baidu;
-  beforeAll(() => {
+  before(() => {
     Baidu = resourceAxios('http://baidu.com', {
       getImg: () => axios.get('http://image.baidu.com'),
     });
@@ -12,7 +14,7 @@ describe('Customize actions', () => {
 
   it('should work', async () => {
     await Baidu.getImg().then((res) => {
-      expect(res.data).toBeDefined();
+      expect(res.data).to.a('string');
     });
-  }, defaultTimeoutInterval);
+  }).timeout(30000);
 });
