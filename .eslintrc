@@ -2,6 +2,22 @@
 {
   "extends": "airbnb",
   "rules": {
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true }]
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  },
+  "globals": {
+    /* jasmine */
+    "describe": false,
+    "it": false,
+    "before": false,
+    "beforeEach": false,
+    "beforeAll": false,
+    "after": false,
+    "afterEach": false,
+    "expect": false
   }
 }

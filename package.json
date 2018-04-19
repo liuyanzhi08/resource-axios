@@ -1,11 +1,12 @@
 {
   "name": "resource-axios",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "create vue-resource's resource like object",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js",
-    "start": "rollup -w -c scripts/config.js"
+    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+    "start": "npm run dev",
+    "dev": "rollup -w -c scripts/config.js"
   },
   "repository": {
     "type": "git",
@@ -19,21 +20,28 @@
     "restful"
   ],
   "author": "liuyanzhi08 (702368372atqqdotcom)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/liuyanzhi08/resource-axios/issues"
   },
   "homepage": "https://github.com/liuyanzhi08/resource-axios",
   "devDependencies": {
     "axios": "^0.18.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "jasmine": "^3.1.0",
     "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.3.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0"
   }
 }

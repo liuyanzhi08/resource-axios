@@ -33,7 +33,7 @@ Book.get(1).then(res => console.log(res));
 Book.query({ name: 'foo' }).then(res => console.log(res));
 ```
 
-## Customer action
+## Customize action
 
 
 ```bash
