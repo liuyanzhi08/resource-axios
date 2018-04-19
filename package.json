@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
     "start": "npm run dev",
-    "dev": "rollup -w -c scripts/config.js"
+    "dev": "rollup -w -c scripts/config.js",
+    "build": "rollup -c scripts/config.js"
   },
   "repository": {
     "type": "git",
