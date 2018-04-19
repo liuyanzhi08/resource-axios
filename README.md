@@ -1,20 +1,25 @@
-# resource-axios [![Build Status][travis-img]][travis]
+# resource-resource-axios 
 
-[travis-img]: https://travis-ci.org/liuyanzhi08/resource-axios.svg
-[travis]: https://travis-ci.org/rollup/rollup-plugin-commonjs
+
+
+[![npm version](https://img.shields.io/npm/v/resource-axios.svg?style=flat-square)](https://www.npmjs.org/package/resource-axios)
+[![build status](https://img.shields.io/travis/liuyanzhi08/resource-axios.svg?style=flat-square)](https://travis-ci.org/liuyanzhi08/resource-axios)
+[![code coverage](https://img.shields.io/coveralls/liuyanzhi08/resource-axios.svg?style=flat-square)](https://coveralls.io/r/liuyanzhi08/resource-axios)
+[![npm downloads](https://img.shields.io/npm/dm/resource-axios.svg?style=flat-square)](http://npm-stat.com/charts.html?package=resource-axios)
+[![code helpers](https://www.codetriage.com/liuyanzhi08/resource-axios/badges/users.svg)](https://www.codetriage.com/liuyanzhi08/resource-axios)
 
 Create vue-resource's resource like object
 
 ## Installation
 
 ```bash
-npm install --save resource-axios
+npm install --save resource-resource-axios
 ```
 
 ## Usage
 
 ```javascript
-import resource from 'resource-axios';
+import resource from 'resource-resource-axios';
 const Book = resource('/api/books');
 
 // add book of id:1 => curl -H "Content-Type:application/json" -X POST --data '{"name":"foo"}' /api/books
@@ -37,13 +42,13 @@ Book.query({ name: 'foo' }).then(res => console.log(res));
 
 
 ```bash
-npm install --save axios
+npm install --save resource-axios
 ```
 
 ```javascript
-import resource from 'resource-axios';
+import resource from 'resource-resource-axios';
 const Book = resource('/api/books', {
-  sell: (id) => axios.get('/api/books/${id}/sell'),
+  sell: (id) => resource-axios.get('/api/books/${id}/sell'),
 });
 
 // sell book of id:1 => curl /api/books/1/sell
