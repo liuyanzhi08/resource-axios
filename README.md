@@ -13,13 +13,13 @@ Create vue-resource's resource like object
 ## Installation
 
 ```bash
-npm install --save resource-resource-axios
+npm install --save resource-axios
 ```
 
 ## Usage
 
 ```javascript
-import resource from 'resource-resource-axios';
+import resource from 'resource-axios';
 const Book = resource('/api/books');
 
 // add book of id:1 => curl -H "Content-Type:application/json" -X POST --data '{"name":"foo"}' /api/books
@@ -46,7 +46,7 @@ npm install --save resource-axios
 ```
 
 ```javascript
-import resource from 'resource-resource-axios';
+import resource from 'resource-axios';
 const Book = resource('/api/books', {
   sell: (id) => resource-axios.get('/api/books/${id}/sell'),
 });
