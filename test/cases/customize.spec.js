@@ -1,13 +1,13 @@
 import axios from 'axios';
 import chai from 'chai';
-import resourceAxios from '../../dist/resource-axios';
+import resource from '../../dist/resource-axios';
 
 const { expect } = chai;
 
 describe('Customize actions', () => {
   let Baidu;
   before(() => {
-    Baidu = resourceAxios('http://baidu.com', {
+    Baidu = resource('http://baidu.com', {
       getImg: () => axios.get('http://image.baidu.com'),
     });
   });

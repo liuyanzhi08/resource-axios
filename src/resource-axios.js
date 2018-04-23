@@ -13,16 +13,17 @@
  * @returns {Object} the resource object
  */
 
-import axios from 'axios';
+// import axios from 'axios';
 // console.log(axios)
 
-export default (path, actions) => {
+export default (path, actions, outerAxios) => {
+  const ax = outerAxios;
   const resource = {
-    get: id => axios.get(`${path}/${id}`),
-    query: params => axios.get(path, { params }),
-    save: data => axios.post(path, data),
-    update: (id, data) => axios.put(`${path}/${id}`, data),
-    delete: id => axios.delete(`${path}/${id}`),
+    get: id => ax.get(`${path}/${id}`),
+    query: params => ax.get(path, { params }),
+    save: data => ax.post(path, data),
+    update: (id, data) => ax.put(`${path}/${id}`, data),
+    delete: id => ax.delete(`${path}/${id}`),
   };
   return Object.assign(resource, actions);
 };
