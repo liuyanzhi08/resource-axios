@@ -13,11 +13,10 @@
  * @returns {Object} the resource object
  */
 
-// import axios from 'axios';
-// console.log(axios)
+import axios from 'axios';
 
 export default (path, actions, outerAxios) => {
-  const ax = outerAxios;
+  const ax = outerAxios || axios;
   const resource = {
     get: id => ax.get(`${path}/${id}`),
     query: params => ax.get(path, { params }),
