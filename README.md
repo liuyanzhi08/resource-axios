@@ -8,7 +8,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/resource-axios.svg?style=flat-square)](http://npm-stat.com/charts.html?package=resource-axios)
 [![code helpers](https://www.codetriage.com/liuyanzhi08/resource-axios/badges/users.svg)](https://www.codetriage.com/liuyanzhi08/resource-axios)
 
-Create vue-resource's resource like object
+Create vue-resource's resource like object. Restful methods, interceptors support.
 
 ## Installation
 
@@ -44,7 +44,7 @@ Book.query({ name: 'foo' }).then(res => console.log(res));
 Axios doc: [axios-api](https://github.com/axios/axios#axios-api)
 
 ```bash
-npm install --save resource-axios
+npm install --save axios
 ```
 
 ```javascript
@@ -65,7 +65,7 @@ Axios doc: [interceptors](https://github.com/axios/axios#interceptors)
 
 
 ```bash
-npm install --save resource-axios
+npm install --save axios
 ```
 
 ```javascript
