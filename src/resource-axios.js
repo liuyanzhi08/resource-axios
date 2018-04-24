@@ -15,14 +15,21 @@
 
 import axios from 'axios';
 
-export default (path, actions, outerAxios) => {
-  const ax = outerAxios || axios;
+export default (path, ac = {}, ax = axios) => {
+  // support invoking like: `resource('/api', axios)`
+  // and `resource('/api', null, axios)`
+  let http = ax;
+  let actions = ac;
+  if (actions && actions.Axios) {
+    http = actions;
+    actions = {};
+  }
   const resource = {
-    get: id => ax.get(`${path}/${id}`),
-    query: params => ax.get(path, { params }),
-    save: data => ax.post(path, data),
-    update: (id, data) => ax.put(`${path}/${id}`, data),
-    delete: id => ax.delete(`${path}/${id}`),
+    get: id => http.get(`${path}/${id}`),
+    query: params => http.get(path, { params }),
+    save: data => http.post(path, data),
+    update: (id, data) => http.put(`${path}/${id}`, data),
+    delete: id => http.delete(`${path}/${id}`),
   };
   return Object.assign(resource, actions);
 };

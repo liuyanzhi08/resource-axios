@@ -4,37 +4,34 @@ import resource from '../../dist/resource-axios';
 
 const { expect } = chai;
 
-describe('Add interceptors', () => {
+describe('Interceptors', () => {
   let Baidu;
+  let Baidu2;
+
   before(() => {
     Baidu = resource('http://baidu.com', null, axios);
+    Baidu2 = resource('http://baidu.com', axios);
 
     // Add a request interceptor
     axios.interceptors.request.use((config) => {
       // Do something before request is sent
-      console.log(config);
+      expect(config.headers).to.be.a('object');
       return config;
-    }, (error) => {
-      // Do something with request error
-      console.log(error);
-      return Promise.reject(error);
     });
 
     // Add a response interceptor
     axios.interceptors.response.use((response) => {
       // Do something with response data
-      console.log(response);
+      expect(response.data).to.be.a('string');
       return response;
-    }, (error) => {
-      // Do something with response error
-      console.log(error);
-      return Promise.reject(error);
     });
   });
 
   it('should work', async () => {
-    await Baidu.get().then((res) => {
-      expect(res.data).to.a('string');
-    });
+    await Baidu.get();
+  }).timeout(30000);
+
+  it('without customized actions, should also works', async () => {
+    await Baidu2.get();
   }).timeout(30000);
 });

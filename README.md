@@ -20,6 +20,7 @@ npm install --save resource-axios
 
 ```javascript
 import resource from 'resource-axios';
+
 const Book = resource('/api/books');
 
 // add book of id:1 => curl -H "Content-Type:application/json" -X POST --data '{"name":"foo"}' /api/books
@@ -40,6 +41,7 @@ Book.query({ name: 'foo' }).then(res => console.log(res));
 
 ## Customize actions
 
+Axios doc: [axios-api](https://github.com/axios/axios#axios-api)
 
 ```bash
 npm install --save resource-axios
@@ -47,12 +49,48 @@ npm install --save resource-axios
 
 ```javascript
 import resource from 'resource-axios';
+import axios from 'axios';
+
 const Book = resource('/api/books', {
-  sell: (id) => resource-axios.get('/api/books/${id}/sell'),
+  sell: (id) => axios.get('/api/books/${id}/sell'),
 });
 
 // sell book of id:1 => curl /api/books/1/sell
 Book.sell(1).then(res => console.log(res));
+```
+
+## Interceptors
+
+Axios doc: [interceptors](https://github.com/axios/axios#interceptors)
+
+
+```bash
+npm install --save resource-axios
+```
+
+```javascript
+import resource from 'resource-axios';
+import axios from 'axios';
+
+const Book = resource('/api/books', axios);
+// const Book = resource('/api/books', { /* customized actions */ }, axios);
+
+// Add a request interceptor
+axios.interceptors.request.use((config) => {
+  // Do something before request is sent
+  console.log(config);
+  return config;
+});
+
+// Add a response interceptor
+axios.interceptors.response.use((response) => {
+  // Do something with response data
+  console.log(response);
+  return response;
+});
+
+// get book of id:1 =>  curl '/api/books/1'
+Book.get(1);
 ```
 
 ## License

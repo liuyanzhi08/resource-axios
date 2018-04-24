@@ -2,6 +2,7 @@
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
+var os = _interopDefault(require('os'));
 var tty = _interopDefault(require('tty'));
 var util = _interopDefault(require('util'));
 var url = _interopDefault(require('url'));
@@ -30,7 +31,7 @@ var bind = function bind(fn, thisArg) {
 
 // The _isBuffer check is for Safari 5-7 support, because it's missing
 // Object.prototype.constructor. Remove this eventually
-var isBuffer_1 = function (obj) {
+var _1_1_6_isBuffer = function (obj) {
   return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
 };
 
@@ -322,7 +323,7 @@ function extend(a, b, thisArg) {
 var utils = {
   isArray: isArray,
   isArrayBuffer: isArrayBuffer,
-  isBuffer: isBuffer_1,
+  isBuffer: _1_1_6_isBuffer,
   isFormData: isFormData,
   isArrayBufferView: isArrayBufferView,
   isString: isString,
@@ -873,7 +874,7 @@ var y = d * 365.25;
  * @api public
  */
 
-var ms = function(val, options) {
+var _2_0_0_ms = function(val, options) {
   options = options || {};
   var type = typeof val;
   if (type === 'string' && val.length > 0) {
@@ -1015,7 +1016,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = ms;
+exports.humanize = _2_0_0_ms;
 
 /**
  * Active `debug` instances.
@@ -1075,8 +1076,8 @@ function createDebug(namespace) {
 
     // set `diff` timestamp
     var curr = +new Date();
-    var ms$$1 = curr - (prevTime || curr);
-    self.diff = ms$$1;
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
     self.prev = prevTime;
     self.curr = curr;
     prevTime = curr;
@@ -1443,55 +1444,141 @@ var browser_5 = browser.useColors;
 var browser_6 = browser.storage;
 var browser_7 = browser.colors;
 
-var argv = process.argv;
-
-var terminator = argv.indexOf('--');
-var hasFlag = function (flag) {
-	flag = '--' + flag;
-	var pos = argv.indexOf(flag);
-	return pos !== -1 && (terminator !== -1 ? pos < terminator : true);
+var _3_0_0_hasFlag = (flag, argv) => {
+	argv = argv || process.argv;
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const pos = argv.indexOf(prefix + flag);
+	const terminatorPos = argv.indexOf('--');
+	return pos !== -1 && (terminatorPos === -1 ? true : pos < terminatorPos);
 };
 
-var supportsColor = (function () {
-	if ('FORCE_COLOR' in process.env) {
-		return true;
-	}
+const env = process.env;
 
-	if (hasFlag('no-color') ||
-		hasFlag('no-colors') ||
-		hasFlag('color=false')) {
+let forceColor;
+if (_3_0_0_hasFlag('no-color') ||
+	_3_0_0_hasFlag('no-colors') ||
+	_3_0_0_hasFlag('color=false')) {
+	forceColor = false;
+} else if (_3_0_0_hasFlag('color') ||
+	_3_0_0_hasFlag('colors') ||
+	_3_0_0_hasFlag('color=true') ||
+	_3_0_0_hasFlag('color=always')) {
+	forceColor = true;
+}
+if ('FORCE_COLOR' in env) {
+	forceColor = env.FORCE_COLOR.length === 0 || parseInt(env.FORCE_COLOR, 10) !== 0;
+}
+
+function translateLevel(level) {
+	if (level === 0) {
 		return false;
 	}
 
-	if (hasFlag('color') ||
-		hasFlag('colors') ||
-		hasFlag('color=true') ||
-		hasFlag('color=always')) {
-		return true;
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(stream$$1) {
+	if (forceColor === false) {
+		return 0;
 	}
 
-	if (process.stdout && !process.stdout.isTTY) {
-		return false;
+	if (_3_0_0_hasFlag('color=16m') ||
+		_3_0_0_hasFlag('color=full') ||
+		_3_0_0_hasFlag('color=truecolor')) {
+		return 3;
 	}
+
+	if (_3_0_0_hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (stream$$1 && !stream$$1.isTTY && forceColor !== true) {
+		return 0;
+	}
+
+	const min = forceColor ? 1 : 0;
 
 	if (process.platform === 'win32') {
-		return true;
+		// Node.js 7.5.0 is the first version of Node.js to include a patch to
+		// libuv that enables 256 color output on Windows. Anything earlier and it
+		// won't work. However, here we target Node.js 8 at minimum as it is an LTS
+		// release, and Node.js 7 is not. Windows 10 build 10586 is the first Windows
+		// release that supports 256 colors. Windows 10 build 14931 is the first release
+		// that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(process.versions.node.split('.')[0]) >= 8 &&
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
 	}
 
-	if ('COLORTERM' in process.env) {
-		return true;
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
 	}
 
-	if (process.env.TERM === 'dumb') {
-		return false;
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
 	}
 
-	if (/^screen|^xterm|^vt100|color|ansi|cygwin|linux/i.test(process.env.TERM)) {
-		return true;
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
 	}
 
-	return false;
-})();
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream$$1) {
+	const level = supportsColor(stream$$1);
+	return translateLevel(level);
+}
+
+var _5_4_0_supportsColor = {
+	supportsColor: getSupportLevel,
+	stdout: getSupportLevel(process.stdout),
+	stderr: getSupportLevel(process.stderr)
+};
 
 var node = createCommonjsModule(function (module, exports) {
 /**
@@ -1522,8 +1609,8 @@ exports.useColors = useColors;
 exports.colors = [ 6, 2, 3, 4, 5, 1 ];
 
 try {
-  var supportsColor$$1 = supportsColor;
-  if (supportsColor$$1 && supportsColor$$1.level >= 2) {
+  var supportsColor = _5_4_0_supportsColor;
+  if (supportsColor && supportsColor.level >= 2) {
     exports.colors = [
       20, 21, 26, 27, 32, 33, 38, 39, 40, 41, 42, 43, 44, 45, 56, 57, 62, 63, 68,
       69, 74, 75, 76, 77, 78, 79, 80, 81, 92, 93, 98, 99, 112, 113, 128, 129, 134,
@@ -1964,108 +2051,75 @@ function wrap(protocols) {
 }
 
 // Exports
-var followRedirects = wrap({ http: http, https: https });
+var _1_4_1_followRedirects = wrap({ http: http, https: https });
 var wrap_1 = wrap;
-followRedirects.wrap = wrap_1;
+_1_4_1_followRedirects.wrap = wrap_1;
 
-var _args = [["axios@0.18.0","/Users/liuyanzhi08/project/resource-axios"]];
-var _development = true;
-var _from = "axios@0.18.0";
-var _id = "axios@0.18.0";
-var _inBundle = false;
-var _integrity = "sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=";
-var _location = "/axios";
-var _phantomChildren = {};
-var _requested = {"type":"version","registry":true,"raw":"axios@0.18.0","name":"axios","escapedName":"axios","rawSpec":"0.18.0","saveSpec":null,"fetchSpec":"0.18.0"};
-var _requiredBy = ["#DEV:/"];
-var _resolved = "https://registry.npmjs.org/axios/-/axios-0.18.0.tgz";
-var _spec = "0.18.0";
-var _where = "/Users/liuyanzhi08/project/resource-axios";
-var author = {"name":"Matt Zabriskie"};
-var browser$1 = {"./lib/adapters/http.js":"./lib/adapters/xhr.js"};
-var bugs = {"url":"https://github.com/axios/axios/issues"};
-var bundlesize = [{"path":"./dist/axios.min.js","threshold":"5kB"}];
-var dependencies = {"follow-redirects":"^1.3.0","is-buffer":"^1.1.5"};
-var description = "Promise based HTTP client for the browser and node.js";
-var devDependencies = {"bundlesize":"^0.5.7","coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","sinon":"^1.17.4","typescript":"^2.0.3","url-search-params":"^0.6.1","webpack":"^1.13.1","webpack-dev-server":"^1.14.1"};
-var homepage = "https://github.com/axios/axios";
-var keywords = ["xhr","http","ajax","promise","node"];
-var license = "MIT";
-var main = "index.js";
 var name = "axios";
-var repository = {"type":"git","url":"git+https://github.com/axios/axios.git"};
-var scripts = {"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test && bundlesize","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"};
-var typings = "./index.d.ts";
 var version = "0.18.0";
+var description = "Promise based HTTP client for the browser and node.js";
+var main = "index.js";
+var scripts = {"test":"grunt test && bundlesize","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"};
+var repository = {"type":"git","url":"https://github.com/axios/axios.git"};
+var keywords = ["xhr","http","ajax","promise","node"];
+var author = "Matt Zabriskie";
+var license = "MIT";
+var bugs = {"url":"https://github.com/axios/axios/issues"};
+var homepage = "https://github.com/axios/axios";
+var devDependencies = {"bundlesize":"^0.5.7","coveralls":"^2.11.9","es6-promise":"^4.0.5","grunt":"^1.0.1","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.0.0","grunt-contrib-nodeunit":"^1.0.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^19.0.0","grunt-karma":"^2.0.0","grunt-ts":"^6.0.0-beta.3","grunt-webpack":"^1.0.18","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^1.3.0","karma-chrome-launcher":"^2.0.0","karma-coverage":"^1.0.0","karma-firefox-launcher":"^1.0.0","karma-jasmine":"^1.0.2","karma-jasmine-ajax":"^0.1.13","karma-opera-launcher":"^1.0.0","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^1.1.0","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.7","karma-webpack":"^1.7.0","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","sinon":"^1.17.4","webpack":"^1.13.1","webpack-dev-server":"^1.14.1","url-search-params":"^0.6.1","typescript":"^2.0.3"};
+var browser$1 = {"./lib/adapters/http.js":"./lib/adapters/xhr.js"};
+var typings = "./index.d.ts";
+var dependencies = {"follow-redirects":"^1.3.0","is-buffer":"^1.1.5"};
+var bundlesize = [{"path":"./dist/axios.min.js","threshold":"5kB"}];
+var _from = "axios@0.18.0";
+var _resolved = "http://registry.npm.taobao.org/axios/download/axios-0.18.0.tgz";
 var _package = {
-	_args: _args,
-	_development: _development,
-	_from: _from,
-	_id: _id,
-	_inBundle: _inBundle,
-	_integrity: _integrity,
-	_location: _location,
-	_phantomChildren: _phantomChildren,
-	_requested: _requested,
-	_requiredBy: _requiredBy,
-	_resolved: _resolved,
-	_spec: _spec,
-	_where: _where,
-	author: author,
-	browser: browser$1,
-	bugs: bugs,
-	bundlesize: bundlesize,
-	dependencies: dependencies,
-	description: description,
-	devDependencies: devDependencies,
-	homepage: homepage,
-	keywords: keywords,
-	license: license,
-	main: main,
 	name: name,
-	repository: repository,
+	version: version,
+	description: description,
+	main: main,
 	scripts: scripts,
+	repository: repository,
+	keywords: keywords,
+	author: author,
+	license: license,
+	bugs: bugs,
+	homepage: homepage,
+	devDependencies: devDependencies,
+	browser: browser$1,
 	typings: typings,
-	version: version
+	dependencies: dependencies,
+	bundlesize: bundlesize,
+	_from: _from,
+	_resolved: _resolved
 };
 
 var _package$1 = /*#__PURE__*/Object.freeze({
-  _args: _args,
-  _development: _development,
-  _from: _from,
-  _id: _id,
-  _inBundle: _inBundle,
-  _integrity: _integrity,
-  _location: _location,
-  _phantomChildren: _phantomChildren,
-  _requested: _requested,
-  _requiredBy: _requiredBy,
-  _resolved: _resolved,
-  _spec: _spec,
-  _where: _where,
-  author: author,
-  browser: browser$1,
-  bugs: bugs,
-  bundlesize: bundlesize,
-  dependencies: dependencies,
-  description: description,
-  devDependencies: devDependencies,
-  homepage: homepage,
-  keywords: keywords,
-  license: license,
-  main: main,
   name: name,
-  repository: repository,
-  scripts: scripts,
-  typings: typings,
   version: version,
+  description: description,
+  main: main,
+  scripts: scripts,
+  repository: repository,
+  keywords: keywords,
+  author: author,
+  license: license,
+  bugs: bugs,
+  homepage: homepage,
+  devDependencies: devDependencies,
+  browser: browser$1,
+  typings: typings,
+  dependencies: dependencies,
+  bundlesize: bundlesize,
+  _from: _from,
+  _resolved: _resolved,
   default: _package
 });
 
 var pkg = ( _package$1 && _package ) || _package$1;
 
-var httpFollow = followRedirects.http;
-var httpsFollow = followRedirects.https;
+var httpFollow = _1_4_1_followRedirects.http;
+var httpsFollow = _1_4_1_followRedirects.https;
 
 
 
@@ -2779,7 +2833,7 @@ var axios_1 = axios;
 var default_1 = axios;
 axios_1.default = default_1;
 
-var axios$1 = axios_1;
+var _0_18_0_axios = axios_1;
 
 /**
  * create vue-resource's resource like object
@@ -2796,14 +2850,21 @@ var axios$1 = axios_1;
  * @returns {Object} the resource object
  */
 
-var resourceAxios = (path, actions, outerAxios) => {
-  const ax = outerAxios || axios$1;
+var resourceAxios = (path, ac = {}, ax = _0_18_0_axios) => {
+  // support invoking like: `resource('/api', axios)`
+  // and `resource('/api', null, axios)`
+  let http$$1 = ax;
+  let actions = ac;
+  if (actions && actions.Axios) {
+    http$$1 = actions;
+    actions = {};
+  }
   const resource = {
-    get: id => ax.get(`${path}/${id}`),
-    query: params => ax.get(path, { params }),
-    save: data => ax.post(path, data),
-    update: (id, data) => ax.put(`${path}/${id}`, data),
-    delete: id => ax.delete(`${path}/${id}`),
+    get: id => http$$1.get(`${path}/${id}`),
+    query: params => http$$1.get(path, { params }),
+    save: data => http$$1.post(path, data),
+    update: (id, data) => http$$1.put(`${path}/${id}`, data),
+    delete: id => http$$1.delete(`${path}/${id}`),
   };
   return Object.assign(resource, actions);
 };
