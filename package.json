@@ -1,6 +1,6 @@
 {
   "name": "resource-axios",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "create vue-resource's resource like object",
   "main": "dist/resource-axios.js",
   "scripts": {

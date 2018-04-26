@@ -13,7 +13,14 @@
  * @returns {Object} the resource object
  */
 
-import axios from 'axios';
+// we can't use rollup's import here,
+// because there is something conflict between the `debug` and the `rollup` package
+// refer:
+//   https://github.com/liuyanzhi08/resource-axios/issues/1
+//   https://github.com/visionmedia/debug/issues/468
+//   https://github.com/visionmedia/debug/issues/438
+// import axios from 'axios';
+const axios = require('axios');
 
 export default (path, ac = {}, ax = axios) => {
   // support invoking like: `resource('/api', axios)`

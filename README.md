@@ -93,6 +93,11 @@ axios.interceptors.response.use((response) => {
 Book.get(1);
 ```
 
+## Changelog
+version | log
+------------ | -------------
+v1.0.16 | fix [issue#1](https://github.com/liuyanzhi08/resource-axios/issues/1)
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
