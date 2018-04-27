@@ -6,8 +6,9 @@
   "scripts": {
     "test": "mocha",
     "start": "npm run dev",
-    "dev": "rollup -w -c scripts/config.js",
-    "build": "rollup -c scripts/config.js",
+    "dev": "rollup -w -c scripts/rollup.conf.js",
+    "build": "rollup -c scripts/rollup.conf.js",
+    "dev:test": "karma start scripts/karma.conf.js",
     "coveralls": "cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
@@ -28,10 +29,13 @@
   },
   "homepage": "https://github.com/liuyanzhi08/resource-axios",
   "devDependencies": {
-    "axios": "^0.18.0",
+    "babel-core": "^6.26.2",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
@@ -40,11 +44,20 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "karma": "^2.0.2",
+    "karma-chai": "^0.1.0",
+    "karma-coverage": "^1.1.1",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^1.0.4",
     "mocha": "^5.1.1",
     "mocha-lcov-reporter": "^1.3.0",
     "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.3.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
   }
 }
