@@ -9,20 +9,12 @@
  *   delete: {method: 'DELETE'}
  *
  * @param {String} path the resource path
- * @param  {Object} actions custom actions to overwrite or to add
+ * @param  {Object} ac custom actions to overwrite or to add
+ * @param {Object} ax Axios instance
  * @returns {Object} the resource object
  */
 
-// we can't use rollup's import here,
-// because there is something conflict between the `debug` and the `rollup` package
-// refer:
-//   https://github.com/liuyanzhi08/resource-axios/issues/1
-//   https://github.com/visionmedia/debug/issues/468
-//   https://github.com/visionmedia/debug/issues/438
-// import axios from 'axios';
-const axios = require('axios');
-
-export default (path, ac = {}, ax = axios) => {
+export default (path, ac = {}, ax) => {
   // support invoking like: `resource('/api', axios)`
   // and `resource('/api', null, axios)`
   let http = ax;

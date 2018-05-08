@@ -15,22 +15,14 @@
    *   delete: {method: 'DELETE'}
    *
    * @param {String} path the resource path
-   * @param  {Object} actions custom actions to overwrite or to add
+   * @param  {Object} ac custom actions to overwrite or to add
+   * @param {Object} ax Axios instance
    * @returns {Object} the resource object
    */
 
-  // we can't use rollup's import here,
-  // because there is something conflict between the `debug` and the `rollup` package
-  // refer:
-  //   https://github.com/liuyanzhi08/resource-axios/issues/1
-  //   https://github.com/visionmedia/debug/issues/468
-  //   https://github.com/visionmedia/debug/issues/438
-  // import axios from 'axios';
-  var axios = require('axios');
-
   var resourceAxios = (function (path) {
     var ac = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var ax = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : axios;
+    var ax = arguments[2];
 
     // support invoking like: `resource('/api', axios)`
     // and `resource('/api', null, axios)`
@@ -42,7 +34,7 @@
     }
     var resource = {
       get: function get(id) {
-        return http.get(path + '/' + id);
+        return http.get(path + "/" + id);
       },
       query: function query(params) {
         return http.get(path, { params: params });
@@ -51,10 +43,10 @@
         return http.post(path, data);
       },
       update: function update(id, data) {
-        return http.put(path + '/' + id, data);
+        return http.put(path + "/" + id, data);
       },
       delete: function _delete(id) {
-        return http.delete(path + '/' + id);
+        return http.delete(path + "/" + id);
       }
     };
     return Object.assign(resource, actions);

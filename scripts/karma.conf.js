@@ -1,5 +1,20 @@
 // Karma configuration
 // Generated on Fri Apr 27 2018 08:47:40 GMT+0800 (CST)
+const webpackConfig = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['env'],
+          plugins: ['transform-runtime'],
+        },
+      },
+    ],
+  },
+};
 
 module.exports = function c(config) {
   config.set({
@@ -11,6 +26,7 @@ module.exports = function c(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      '../node_modules/babel-polyfill/dist/polyfill.js',
       '../dist/resource-axios.js',
       '../test/**/*.spec.js',
     ],
@@ -22,20 +38,10 @@ module.exports = function c(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '../test/**/*.js': ['babel'],
+      '../test/**/*.js': ['webpack'],
     },
 
-    // babelPreprocessor: {
-    //   options: {
-    //     presets: ['env']
-    //   },
-    //   filename(file) {
-    //     return file.originalPath.replace(/\.js$/, '.es5.js');
-    //   },
-    //   sourceFileName(file) {
-    //     return file.originalPath;
-    //   },
-    // },
+    webpack: webpackConfig,
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

@@ -14,14 +14,16 @@ Create vue-resource's resource like object. Restful methods, interceptors suppor
 
 ```bash
 npm install --save resource-axios
+npm install --save axios
 ```
 
 ## Usage
 
 ```javascript
 import resource from 'resource-axios';
+import axios from 'axios';
 
-const Book = resource('/api/books');
+const Book = resource('/api/books', axios);
 
 // add book of id:1 => curl -H "Content-Type:application/json" -X POST --data '{"name":"foo"}' /api/books
 Book.save(1, {name: 'foo'}).then(res => console.log(res));
@@ -43,17 +45,13 @@ Book.query({ name: 'foo' }).then(res => console.log(res));
 
 Axios doc: [axios-api](https://github.com/axios/axios#axios-api)
 
-```bash
-npm install --save axios
-```
-
 ```javascript
 import resource from 'resource-axios';
 import axios from 'axios';
 
 const Book = resource('/api/books', {
   sell: (id) => axios.get('/api/books/${id}/sell'),
-});
+}, axios);
 
 // sell book of id:1 => curl /api/books/1/sell
 Book.sell(1).then(res => console.log(res));
@@ -96,6 +94,7 @@ Book.get(1);
 ## Changelog
 version | log
 ------------ | -------------
+v1.1.0 |  remove axios self-injecting. [changelog](https://github.com/liuyanzhi08/resource-axios/wiki/change-log-v1.1.0)
 v1.0.16 | fix [issue#1](https://github.com/liuyanzhi08/resource-axios/issues/1)
 
 ## License

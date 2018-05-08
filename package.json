@@ -1,6 +1,6 @@
 {
   "name": "resource-axios",
-  "version": "1.0.16",
+  "version": "1.1.0",
   "description": "create vue-resource's resource like object",
   "main": "dist/resource-axios.js",
   "scripts": {
@@ -30,8 +30,10 @@
   "homepage": "https://github.com/liuyanzhi08/resource-axios",
   "devDependencies": {
     "babel-core": "^6.26.2",
+    "babel-loader": "^7.1.4",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
@@ -49,16 +51,14 @@
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.4",
+    "karma-webpack": "^3.0.0",
     "mocha": "^5.1.1",
     "mocha-lcov-reporter": "^1.3.0",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-json": "^2.3.0",
-    "rollup-plugin-node-resolve": "^3.3.0"
-  },
-  "dependencies": {
-    "axios": "^0.18.0",
-    "karma-babel-preprocessor": "^7.0.0"
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "webpack": "^4.8.1"
   }
 }

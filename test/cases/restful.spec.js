@@ -1,3 +1,4 @@
+import axios from 'axios';
 import chai from 'chai';
 import resource from '../../dist/resource-axios';
 
@@ -6,7 +7,7 @@ const { expect } = chai;
 describe('Restful methods', () => {
   let Baidu;
   before(() => {
-    Baidu = resource('http://baidu.com');
+    Baidu = resource('http://baidu.com', axios);
   });
 
   it('should work', async () => {
