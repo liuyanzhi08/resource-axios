@@ -1,6 +1,6 @@
 {
   "name": "resource-axios",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "create vue-resource's resource like object",
   "main": "dist/resource-axios.js",
   "scripts": {
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/liuyanzhi08/resource-axios",
   "devDependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^6.26.2",
     "babel-loader": "^7.1.4",
     "babel-plugin-external-helpers": "^6.22.0",
