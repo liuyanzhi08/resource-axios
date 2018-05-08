@@ -61,11 +61,6 @@ Book.sell(1).then(res => console.log(res));
 
 Axios doc: [interceptors](https://github.com/axios/axios#interceptors)
 
-
-```bash
-npm install --save axios
-```
-
 ```javascript
 import resource from 'resource-axios';
 import axios from 'axios';
