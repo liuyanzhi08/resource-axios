@@ -14,6 +14,7 @@ const webpackConfig = {
       },
     ],
   },
+  mode: 'production',
 };
 
 module.exports = function c(config) {
@@ -42,6 +43,9 @@ module.exports = function c(config) {
     },
 
     webpack: webpackConfig,
+    webpackMiddleware: {
+      logLevel: 'silent',
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

@@ -4,11 +4,11 @@
   "description": "create vue-resource's resource like object",
   "main": "dist/resource-axios.js",
   "scripts": {
-    "test": "mocha",
     "start": "npm run dev",
     "dev": "rollup -w -c scripts/rollup.conf.js",
     "build": "rollup -c scripts/rollup.conf.js",
-    "dev:test": "karma start scripts/karma.conf.js",
+    "mocha:test": "mocha -w",
+    "karma:test": "karma start scripts/karma.conf.js",
     "coveralls": "cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
@@ -53,11 +53,13 @@
     "karma-webpack": "^3.0.0",
     "mocha": "^5.1.1",
     "mocha-lcov-reporter": "^1.3.0",
+    "npm": "^6.0.0",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.3.0",
+    "sinon": "^5.0.7",
     "webpack": "^4.8.1"
   }
 }

@@ -10,7 +10,7 @@
     ]
   },
   "globals": {
-    /* jasmine */
+    // mocha
     "describe": false,
     "it": false,
     "before": false,
