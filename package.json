@@ -5,8 +5,10 @@
   "main": "dist/resource-axios.js",
   "scripts": {
     "start": "npm run dev",
+    "test": "mocha",
     "dev": "rollup -w -c scripts/rollup.conf.js",
     "build": "rollup -c scripts/rollup.conf.js",
+    "dev:test": "mocha:test",
     "mocha:test": "mocha -w",
     "karma:test": "karma start scripts/karma.conf.js",
     "coveralls": "cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
