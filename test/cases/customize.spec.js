@@ -7,8 +7,8 @@ const { expect } = chai;
 describe('Customize actions', () => {
   let Baidu;
   before(() => {
-    Baidu = resource('http://baidu.com', {
-      getImg: () => axios.get('http://image.baidu.com'),
+    Baidu = resource('https://image.baidu.com/', {
+      getImg: () => axios.get('https://image.baidu.com/'),
     }, axios);
   });
 
