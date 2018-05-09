@@ -23,6 +23,12 @@ export default (path, ac = {}, ax) => {
     http = actions;
     actions = {};
   }
+
+  if (typeof http === 'undefined') {
+    throw new Error('axios is not imported. since v1.1.0, ' +
+      'you should import and pass axios into resource\'s constructor.');
+  }
+
   const resource = {
     get: id => http.get(`${path}/${id}`),
     query: params => http.get(path, { params }),

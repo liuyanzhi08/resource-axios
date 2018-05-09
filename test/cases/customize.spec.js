@@ -9,7 +9,7 @@ describe('Customize actions', () => {
   before(() => {
     Baidu = resource('http://baidu.com', {
       getImg: () => axios.get('http://image.baidu.com'),
-    });
+    }, axios);
   });
 
   it('should work', async () => {

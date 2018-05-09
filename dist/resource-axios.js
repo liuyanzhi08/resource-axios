@@ -32,9 +32,14 @@
       http = actions;
       actions = {};
     }
+
+    if (typeof http === 'undefined') {
+      throw new Error('axios is not imported. since v1.1.0, ' + 'you should import and pass axios into resource\'s constructor.');
+    }
+
     var resource = {
       get: function get(id) {
-        return http.get(path + "/" + id);
+        return http.get(path + '/' + id);
       },
       query: function query(params) {
         return http.get(path, { params: params });
@@ -43,10 +48,10 @@
         return http.post(path, data);
       },
       update: function update(id, data) {
-        return http.put(path + "/" + id, data);
+        return http.put(path + '/' + id, data);
       },
       delete: function _delete(id) {
-        return http.delete(path + "/" + id);
+        return http.delete(path + '/' + id);
       }
     };
     return Object.assign(resource, actions);

@@ -1,7 +1,5 @@
 # resource-axios 
 
-
-
 [![npm version](https://img.shields.io/npm/v/resource-axios.svg?style=flat-square)](https://www.npmjs.org/package/resource-axios)
 [![build status](https://img.shields.io/travis/liuyanzhi08/resource-axios.svg?style=flat-square)](https://travis-ci.org/liuyanzhi08/resource-axios)
 [![code coverage](https://img.shields.io/coveralls/liuyanzhi08/resource-axios.svg?style=flat-square)](https://coveralls.io/r/liuyanzhi08/resource-axios)
@@ -89,6 +87,8 @@ Book.get(1);
 ## Changelog
 version | log
 ------------ | -------------
+v1.1.2 | add notice when axios is not imported
+v1.1.1 | refactoring codes
 v1.1.0 |  remove axios self-injecting. [changelog](https://github.com/liuyanzhi08/resource-axios/wiki/change-log-v1.1.0)
 v1.0.16 | fix [issue#1](https://github.com/liuyanzhi08/resource-axios/issues/1)
 
