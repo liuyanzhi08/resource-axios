@@ -4,6 +4,12 @@
   (global.resource = factory());
 }(this, (function () { 'use strict';
 
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+
   /**
    * create vue-resource's resource like object
    *
@@ -14,13 +20,13 @@
    *   update: {method: 'PUT'}
    *   delete: {method: 'DELETE'}
    *
-   * @param {String} path the resource path
+   * @param {String} base the resource base
    * @param  {Object} ac custom actions to overwrite or to add
    * @param {Object} ax Axios instance
    * @returns {Object} the resource object
    */
 
-  var resourceAxios = (function (path) {
+  var resourceAxios = (function (base) {
     var ac = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var ax = arguments[2];
 
@@ -38,20 +44,27 @@
     }
 
     var resource = {
-      get: function get(id) {
-        return http.get(path + '/' + id);
+      get: function get$$1(input) {
+        var id = void 0;
+        if ((typeof input === 'undefined' ? 'undefined' : _typeof(input)) === 'object') {
+          id = input.id;
+        } else {
+          id = input;
+        }
+        var path = base + '/' + id;
+        return http.get(path);
       },
       query: function query(params) {
-        return http.get(path, { params: params });
+        return http.get(base, { params: params });
       },
       save: function save(data) {
-        return http.post(path, data);
+        return http.post(base, data);
       },
       update: function update(id, data) {
-        return http.put(path + '/' + id, data);
+        return http.put(base + '/' + id, data);
       },
       delete: function _delete(id) {
-        return http.delete(path + '/' + id);
+        return http.delete(base + '/' + id);
       }
     };
     return Object.assign(resource, actions);
