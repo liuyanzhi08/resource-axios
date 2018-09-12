@@ -27,6 +27,10 @@ function start() {
     ctx.body = { id: 1 };
   });
 
+  router.post('/api/book/1/order', (ctx) => {
+    ctx.body = { id: 1 };
+  });
+
   app
     .use(router.routes())
     .use(router.allowedMethods());

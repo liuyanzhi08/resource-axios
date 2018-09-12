@@ -22,7 +22,7 @@
    *
    * @param {String} base the resource base
    * @param  {Object} ac custom actions to overwrite or to add
-   * @param {Object} ax Axios instance
+   * @param {Object} ax axios instance
    * @returns {Object} the resource object
    */
 
@@ -69,15 +69,20 @@
       error('axios is not imported. since v1.1.0, ' + 'you should require("axios") and call resource("/base/path", axios)', 'init');
     }
 
+    var query = function query() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      check(params, 'query');
+      return http.get(base, { params: params });
+    };
+
     var get$$1 = function get$$1(input) {
+      if (input === undefined) {
+        return query();
+      }
       var id = getId(input, 'get');
       var path = base + '/' + id;
       return http.get(path);
-    };
-
-    var query = function query(params) {
-      check(params, 'query');
-      return http.get(base, { params: params });
     };
 
     var save = function save(data) {

@@ -28,7 +28,13 @@ describe('methods alias', () => {
 
   it('del === delete', () => {
     api.del(1).then((res) => {
-      assert.deepStrictEqual(ress.data, { id: 1 });
+      assert.deepStrictEqual(res.data, { id: 1 });
+    });
+  });
+
+  it('get(/* no param */) === query()', () => {
+    api.get().then((res) => {
+      assert.deepStrictEqual(res.data, { items: [{ id: 1 }], total: 1 });
     });
   });
 });

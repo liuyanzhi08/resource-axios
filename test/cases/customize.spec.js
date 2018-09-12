@@ -1,20 +1,25 @@
 import axios from 'axios';
-import chai from 'chai';
+import assert from 'power-assert';
 import resource from '../../dist/resource-axios';
+import server from '../helpers/server';
 
-const { expect } = chai;
+let api;
 
-describe('Customize actions', () => {
-  let Baidu;
+describe('customer actions', () => {
   before(() => {
-    Baidu = resource('https://image.baidu.com/', {
-      getImg: () => axios.get('https://image.baidu.com/'),
+    server.start();
+    api = resource(server.base, {
+      order: () => axios.post(`${server.base}/1/order`),
     }, axios);
+  });
+  after(() => {
+    server.stop();
   });
 
   it('should work', async () => {
-    await Baidu.getImg().then((res) => {
-      expect(res.data).to.a('string');
+    await api.order().then((res) => {
+      const book = res.data;
+      assert.deepEqual(book, { id: 1 });
     });
   }).timeout(30000);
 });

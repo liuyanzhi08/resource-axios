@@ -1,37 +1,32 @@
 import axios from 'axios';
-import chai from 'chai';
+import assert from 'power-assert';
 import resource from '../../dist/resource-axios';
+import server from '../helpers/server';
 
-const { expect } = chai;
+let api;
 
-describe('Interceptors', () => {
-  let Baidu;
-  let Baidu2;
-
+describe('interceptors', () => {
   before(() => {
-    Baidu = resource('http://baidu.com', null, axios);
-    Baidu2 = resource('http://baidu.com', axios);
+    server.start();
+    api = resource(server.base, axios);
 
     // Add a request interceptor
     axios.interceptors.request.use((config) => {
-      // Do something before request is sent
-      // expect(config.headers).to.be.a('object');
+      assert(config);
       return config;
     });
 
     // Add a response interceptor
     axios.interceptors.response.use((response) => {
-      // Do something with response data
-      // expect(response.data).to.be.a('string');
+      assert(response);
       return response;
     });
   });
+  after(() => {
+    server.stop();
+  });
 
-  // it('should work', async () => {
-  //   await Baidu.get();
-  // }).timeout(30000);
-  //
-  // it('without customized actions, should also works', async () => {
-  //   await Baidu2.get();
-  // }).timeout(30000);
+  it('should trigger request and response interceptors', async () => {
+    await api.get();
+  });
 });

@@ -10,7 +10,7 @@
  *
  * @param {String} base the resource base
  * @param  {Object} ac custom actions to overwrite or to add
- * @param {Object} ax Axios instance
+ * @param {Object} ax axios instance
  * @returns {Object} the resource object
  */
 
@@ -56,15 +56,18 @@ export default (base, ac = {}, ax) => {
       + 'you should require("axios") and call resource("/base/path", axios)', 'init');
   }
 
+  const query = (params = {}) => {
+    check(params, 'query');
+    return http.get(base, { params });
+  };
+
   const get = (input) => {
+    if (input === undefined) {
+      return query();
+    }
     const id = getId(input, 'get');
     const path = `${base}/${id}`;
     return http.get(path);
-  };
-
-  const query = (params) => {
-    check(params, 'query');
-    return http.get(base, { params });
   };
 
   const save = data => http.post(base, data);
