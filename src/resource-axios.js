@@ -14,6 +14,33 @@
  * @returns {Object} the resource object
  */
 
+const error = (msg, tag = 'resource-axios') => {
+  throw new Error(`[${tag}] ${msg} | API: https://github.com/liuyanzhi08/resource-axios`);
+};
+
+const check = (input, method) => {
+  const inputType = typeof input;
+  if (inputType !== 'number'
+    && inputType !== 'string'
+    && inputType !== 'object'
+  ) {
+    error('param should be a number, a string or a object which contains a `id`(or `_id`) attribute', method);
+  }
+};
+
+const getId = (input, method) => {
+  check(input, method);
+
+  let id = input;
+  if (typeof input === 'object') {
+    id = input.id || input._id;
+  }
+  if (id === undefined) {
+    error('param type of object should contain a `id`(or `_id`) attribute', method);
+  }
+  return id;
+};
+
 export default (base, ac = {}, ax) => {
   // support invoking like: `resource('/api', axios)`
   // and `resource('/api', null, axios)`
@@ -25,26 +52,29 @@ export default (base, ac = {}, ax) => {
   }
 
   if (typeof http === 'undefined') {
-    throw new Error('axios is not imported. since v1.1.0, ' +
-      'you should import and pass axios into resource\'s constructor.');
+    error('axios is not imported. since v1.1.0, '
+      + 'you should require("axios") and call resource("/base/path", axios)', 'init');
   }
 
   const resource = {
     get: (input) => {
-      let id;
-      if (typeof input === 'object') {
-        id = input.id;
-      } else {
-        id = input;
-      }
+      const id = getId(input, 'get');
       const path = `${base}/${id}`;
       return http.get(path);
     },
-    query: params => http.get(base, { params }),
+    query: (params) => {
+      check(params, 'query');
+      return http.get(base, { params });
+    },
     save: data => http.post(base, data),
-    update: (id, data) => http.put(`${base}/${id}`, data),
-    delete: id => http.delete(`${base}/${id}`),
+    update: (input, data) => {
+      const id = getId(input, 'update');
+      return http.put(`${base}/${id}`, data);
+    },
+    delete: (input) => {
+      const id = getId(input, 'delete');
+      return http.delete(`${base}/${id}`);
+    },
   };
   return Object.assign(resource, actions);
 };
-

@@ -7,7 +7,8 @@
       {
         "devDependencies": true
       }
-    ]
+    ],
+    "no-underscore-dangle": "off"
   },
   "globals": {
     // mocha

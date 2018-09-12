@@ -27,11 +27,11 @@ describe('Interceptors', () => {
     });
   });
 
-  it('should work', async () => {
-    await Baidu.get();
-  }).timeout(30000);
-
-  it('without customized actions, should also works', async () => {
-    await Baidu2.get();
-  }).timeout(30000);
+  // it('should work', async () => {
+  //   await Baidu.get();
+  // }).timeout(30000);
+  //
+  // it('without customized actions, should also works', async () => {
+  //   await Baidu2.get();
+  // }).timeout(30000);
 });

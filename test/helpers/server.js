@@ -11,7 +11,11 @@ function start() {
     ctx.body = { id: 1 };
   });
 
-  router.post('/api/book/1', (ctx) => {
+  router.get('/api/book', (ctx) => {
+    ctx.body = { items: [{ id: 1 }], total: 1 };
+  });
+
+  router.post('/api/book', (ctx) => {
     ctx.body = { id: 1 };
   });
 
