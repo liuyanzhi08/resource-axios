@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import Router from 'koa-router';
+import Body from 'koa-body';
 
 let server;
 
@@ -20,7 +21,7 @@ function start() {
   });
 
   router.put('/api/book/1', (ctx) => {
-    ctx.body = { id: 1 };
+    ctx.body = ctx.request.body;
   });
 
   router.delete('/api/book/1', (ctx) => {
@@ -32,6 +33,7 @@ function start() {
   });
 
   app
+    .use(Body())
     .use(router.routes())
     .use(router.allowedMethods());
 

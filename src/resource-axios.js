@@ -74,7 +74,11 @@ export default (base, ac = {}, ax) => {
 
   const update = (input, data) => {
     const id = getId(input, 'update');
-    return http.put(`${base}/${id}`, data);
+    let resolvedData = data;
+    if (resolvedData === undefined) {
+      resolvedData = input;
+    }
+    return http.put(`${base}/${id}`, resolvedData);
   };
 
   const _delete = (input) => {

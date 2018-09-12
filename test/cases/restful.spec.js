@@ -33,8 +33,8 @@ describe('Restful methods', () => {
   });
 
   it('[update] should response a object', async () => {
-    await api.update(1, {}).then((res) => {
-      assert.deepStrictEqual(res.data, { id: 1 });
+    await api.update(1, { foo: 'bar' }).then((res) => {
+      assert.deepStrictEqual(res.data, { foo: 'bar' });
     });
   });
 

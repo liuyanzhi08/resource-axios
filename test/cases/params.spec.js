@@ -81,16 +81,16 @@ describe('params', () => {
   // method update
   describe('[update]', () => {
     it('first param could be a object which contains a id attribute', async () => {
-      await api.update({ id: 1 }).then((res) => {
+      await api.update({ id: 1 }, { foo: 'bar' }).then((res) => {
         const book = res.data;
-        assert.deepEqual(book, { id: 1 });
+        assert.deepEqual(book, { foo: 'bar' });
       });
     });
 
     it('first param could a object which contains a _id attribute', async () => {
       await api.update({ _id: 1 }).then((res) => {
         const book = res.data;
-        assert.deepStrictEqual(book, { id: 1 });
+        assert.deepStrictEqual(book, { _id: 1 });
       });
     });
 

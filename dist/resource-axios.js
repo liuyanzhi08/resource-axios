@@ -91,7 +91,11 @@
 
     var update = function update(input, data) {
       var id = getId(input, 'update');
-      return http.put(base + '/' + id, data);
+      var resolvedData = data;
+      if (resolvedData === undefined) {
+        resolvedData = input;
+      }
+      return http.put(base + '/' + id, resolvedData);
     };
 
     var _delete = function _delete(input) {
