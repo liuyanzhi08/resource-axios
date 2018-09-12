@@ -56,25 +56,39 @@ export default (base, ac = {}, ax) => {
       + 'you should require("axios") and call resource("/base/path", axios)', 'init');
   }
 
+  const get = (input) => {
+    const id = getId(input, 'get');
+    const path = `${base}/${id}`;
+    return http.get(path);
+  };
+
+  const query = (params) => {
+    check(params, 'query');
+    return http.get(base, { params });
+  };
+
+  const save = data => http.post(base, data);
+
+  const update = (input, data) => {
+    const id = getId(input, 'update');
+    return http.put(`${base}/${id}`, data);
+  };
+
+  const _delete = (input) => {
+    const id = getId(input, 'delete');
+    return http.delete(`${base}/${id}`);
+  };
+
   const resource = {
-    get: (input) => {
-      const id = getId(input, 'get');
-      const path = `${base}/${id}`;
-      return http.get(path);
-    },
-    query: (params) => {
-      check(params, 'query');
-      return http.get(base, { params });
-    },
-    save: data => http.post(base, data),
-    update: (input, data) => {
-      const id = getId(input, 'update');
-      return http.put(`${base}/${id}`, data);
-    },
-    delete: (input) => {
-      const id = getId(input, 'delete');
-      return http.delete(`${base}/${id}`);
-    },
+    get,
+    query,
+    save,
+    update,
+    delete: _delete,
+    // alias methods
+    post: save,
+    put: update,
+    del: _delete,
   };
   return Object.assign(resource, actions);
 };

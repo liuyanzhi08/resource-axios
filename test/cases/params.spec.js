@@ -14,7 +14,7 @@ describe('params', () => {
     server.stop();
   });
 
-  it('[init] throw error if the 2nd and the 3rd param is not a axios object', () => {
+  it('init: throw error if the 2nd and the 3rd param is not a axios object', () => {
     assert.throws(() => {
       resource('/test', 'foo');
     }, {

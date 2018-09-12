@@ -69,27 +69,41 @@
       error('axios is not imported. since v1.1.0, ' + 'you should require("axios") and call resource("/base/path", axios)', 'init');
     }
 
+    var get$$1 = function get$$1(input) {
+      var id = getId(input, 'get');
+      var path = base + '/' + id;
+      return http.get(path);
+    };
+
+    var query = function query(params) {
+      check(params, 'query');
+      return http.get(base, { params: params });
+    };
+
+    var save = function save(data) {
+      return http.post(base, data);
+    };
+
+    var update = function update(input, data) {
+      var id = getId(input, 'update');
+      return http.put(base + '/' + id, data);
+    };
+
+    var _delete = function _delete(input) {
+      var id = getId(input, 'delete');
+      return http.delete(base + '/' + id);
+    };
+
     var resource = {
-      get: function get$$1(input) {
-        var id = getId(input, 'get');
-        var path = base + '/' + id;
-        return http.get(path);
-      },
-      query: function query(params) {
-        check(params, 'query');
-        return http.get(base, { params: params });
-      },
-      save: function save(data) {
-        return http.post(base, data);
-      },
-      update: function update(input, data) {
-        var id = getId(input, 'update');
-        return http.put(base + '/' + id, data);
-      },
-      delete: function _delete(input) {
-        var id = getId(input, 'delete');
-        return http.delete(base + '/' + id);
-      }
+      get: get$$1,
+      query: query,
+      save: save,
+      update: update,
+      delete: _delete,
+      // alias methods
+      post: save,
+      put: update,
+      del: _delete
     };
     return Object.assign(resource, actions);
   });
