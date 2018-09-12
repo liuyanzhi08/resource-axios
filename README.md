@@ -94,7 +94,7 @@ Book.get(1);
 ## Changelog
 version | log
 ------------ | -------------
-v1.2.0 | support more params format; params error will be throw out; add post and put methods [changelog](https://github.com/liuyanzhi08/resource-axios/wiki/change-log-v1.2.0)
+v1.2.1 | support more params format; params error will be throw out; add post and put methods [changelog](https://github.com/liuyanzhi08/resource-axios/wiki/change-log-v1.2.1)
 v1.1.2 | add notice when axios is not imported
 v1.1.1 | refactoring codes
 v1.1.0 |  remove axios self-injecting. [changelog](https://github.com/liuyanzhi08/resource-axios/wiki/change-log-v1.1.0)
