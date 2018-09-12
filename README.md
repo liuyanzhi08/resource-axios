@@ -38,8 +38,8 @@ Book.post({ name: 'foo' }).then(res => console.log(res));
 // update book of id:1 => curl -H "Content-Type:application/json" -X PUT --data '{"name":"foo"}' /api/books/1
 Book.update(1, { name: 'foo' }).then(res => console.log(res));
 Book.update({ id: 1, name: 'foo' }).then(res => console.log(res));
-Book.update(1, { name: 'foo' }).then(res => console.log(res));
-Book.update({ id: 1, name: 'foo' }).then(res => console.log(res));
+Book.put(1, { name: 'foo' }).then(res => console.log(res));
+Book.put({ id: 1, name: 'foo' }).then(res => console.log(res));
 
 // delete book of id:1 => curl -X DELETE /api/books/1
 Book.delete(1).then(res => console.log(res));
