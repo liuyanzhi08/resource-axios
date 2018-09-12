@@ -44,6 +44,8 @@ Book.put({ id: 1, name: 'foo' }).then(res => console.log(res));
 // delete book of id:1 => curl -X DELETE /api/books/1
 Book.delete(1).then(res => console.log(res));
 Book.delete({ id: 1 }).then(res => console.log(res));
+Book.del(1).then(res => console.log(res));
+Book.del({ id: 1 }).then(res => console.log(res));
 ```
 
 ## Customize actions
