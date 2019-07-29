@@ -57,7 +57,7 @@ import resource from 'resource-axios';
 import axios from 'axios';
 
 const Book = resource('/api/books', {
-  sell: (id) => axios.get('/api/books/${id}/sell'),
+  sell: (id) => axios.get(`/api/books/${id}/sell`),
 }, axios);
 
 // sell book of id:1 => curl /api/books/1/sell
