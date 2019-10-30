@@ -5,6 +5,7 @@
 [![code coverage](https://img.shields.io/coveralls/liuyanzhi08/resource-axios.svg?style=flat-square)](https://coveralls.io/r/liuyanzhi08/resource-axios)
 [![npm downloads](https://img.shields.io/npm/dm/resource-axios.svg?style=flat-square)](http://npm-stat.com/charts.html?package=resource-axios)
 [![code helpers](https://www.codetriage.com/liuyanzhi08/resource-axios/badges/users.svg)](https://www.codetriage.com/liuyanzhi08/resource-axios)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fresource-axios.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fresource-axios?ref=badge_shield)
 
 Create vue-resource's resource like object. Restful methods, interceptors support.
 
@@ -107,3 +108,6 @@ v1.0.16 | fix [issue#1](https://github.com/liuyanzhi08/resource-axios/issues/1)
 [MIT](http://opensource.org/licenses/MIT)
 
 Copyright (c) 2018-present, liuyanzhi08
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fresource-axios.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fliuyanzhi08%2Fresource-axios?ref=badge_large)
